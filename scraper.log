@@ -1,0 +1,25 @@
+2026-09-24 18:50:03,864 [INFO] ================================================================================
+2026-09-24 18:50:03,864 [INFO] STARTING PRODUCTION UK COMPANIES HOUSE CONTACT SCRAPER
+2026-09-24 18:50:03,864 [INFO] ================================================================================
+2026-09-24 18:50:03,864 [INFO] Input Dataset:  Companies-House-search-results.csv
+2026-09-24 18:50:03,864 [INFO] Output Dataset: enriched_uk_companies.csv
+2026-09-24 18:50:03,865 [INFO] Batch Size:     3
+2026-09-24 18:50:03,865 [INFO] Already processed in previous runs: 10 companies
+2026-09-24 18:50:03,912 [INFO] Total remaining companies to scrape: 21
+2026-09-24 18:50:03,912 [INFO] Processing next batch of 3 companies...
+
+2026-09-24 18:50:03,914 [INFO] [  1/3] Scraping: THE DAPARIAN FOUNDATION CIC (Co #12810687)
+2026-09-24 18:50:06,389 [INFO]       Appointed Officer: GETTINGS, Richard David (Director)
+2026-09-24 18:50:06,389 [INFO]       Address:          The Spectrum, Coke Hill, Rotherham, England, S60 2HX
+2026-09-24 18:50:07,541 [INFO] [  2/3] Scraping: ORCHARDS COMMUNITY SUPPORT - COMMUNITY INTEREST COMPANY (Co #10255785)
+2026-09-24 18:50:09,665 [INFO]       Appointed Officer: CAMP, Jamie Stuart (Director)
+2026-09-24 18:50:09,665 [INFO]       Address:          10 Royal Crescent, Weston-Super-Mare, England, BS23 2AX
+2026-09-24 18:50:10,808 [INFO] [  3/3] Scraping: LIBERTY LINES PROJECT CIC (Co #12945055)
+2026-09-24 18:50:15,879 [INFO]       Appointed Officer: DJAN, Queenie (Director)
+2026-09-24 18:50:15,879 [INFO]       Address:          85 Great Portland Street, London, United Kingdom, W1W 7LT
+2026-09-24 18:50:17,054 [INFO] ================================================================================
+2026-09-24 18:50:17,054 [INFO] BATCH FINISHED: Processed 3 companies in 13.1s.
+2026-09-24 18:50:17,055 [INFO] Total Cumulative Enriched: 13 companies.
+2026-09-24 18:50:17,055 [INFO] Updated CSV: enriched_uk_companies.csv
+2026-09-24 18:50:17,055 [INFO] Updated Log: scraper.log
+2026-09-24 18:50:17,055 [INFO] ================================================================================
