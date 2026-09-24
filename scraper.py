@@ -11,6 +11,13 @@ from bs4 import BeautifulSoup
 import os
 import sys
 
+if sys.platform.startswith('win'):
+    try:
+        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+        sys.stderr.reconfigure(encoding='utf-8', errors='replace')
+    except Exception:
+        pass
+
 # Configure logging to both console and file
 LOG_FILE = "scraper.log"
 logging.basicConfig(
@@ -44,12 +51,28 @@ UK_PHONE_REGEX = re.compile(
 
 EMAIL_REGEX = re.compile(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b')
 
+import socket
+socket.setdefaulttimeout(8)
+
 SKIP_DOMAINS = [
     'gov.uk', 'companieshouse', 'endole.co.uk', 'companycheck.co.uk', 'pomanda.com',
     'duedil.com', 'wikipedia.org', 'youtube.com', 'google.com', 'yahoo.com',
     'facebook.com', 'instagram.com', 'twitter.com', 'x.com', 'linkedin.com',
     '192.com', 'yell.com', 'opengovuk.com', 'findglocal.com', 'checkcompany.co.uk',
-    'cylex-uk.co.uk', 'vat-search.co.uk', 'companydirectorcheck.com'
+    'cylex-uk.co.uk', 'vat-search.co.uk', 'companydirectorcheck.com',
+    'companiesintheuk.co.uk', 'companieslist.co.uk', 'check-business.co.uk',
+    'bizdb.co.uk', 'northdata.com', 'opencorporates.com', 'credit-safe.co.uk',
+    'kompass.com', 'dnb.com', 'thegazette.co.uk', 'charitycommission.gov.uk',
+    'trustnet.com', 'service.gov.uk', 'sentry.io', 'wixpress.com',
+    'squarespace.com', 'wordpress.com', 'github.com', 'cloudflare.com',
+    'firstreport.co.uk', 'levelbusiness.com', 'bizuma.co.uk', 'globaldatabase.com',
+    'lei-ireland.ie'
+]
+
+DISALLOWED_EMAIL_DOMAINS = [
+    'companiesintheuk.co.uk', 'companieslist.co.uk', 'endole.co.uk', 'companycheck.co.uk',
+    'sentry.io', 'wixpress.com', 'domain.com', 'example.com', 'godaddy.com', 'cloudflare.com',
+    'firstreport.co.uk', 'levelbusiness.com', 'bizuma.co.uk', 'lei-ireland.ie'
 ]
 
 CSV_FIELDNAMES = [
@@ -59,6 +82,34 @@ CSV_FIELDNAMES = [
     "Official_Website", "Social_or_LinkedIn", "All_Phones", "All_Emails",
     "Companies_House_Profile", "Enriched_Timestamp"
 ]
+
+def unwrap_ddg_url(raw_url):
+    """Unwraps DuckDuckGo redirect URLs like /l/?uddg=https%3A%2F%2F..."""
+    if not raw_url:
+        return ""
+    if "uddg=" in raw_url:
+        try:
+            parsed = urllib.parse.urlparse(raw_url)
+            params = urllib.parse.parse_qs(parsed.query)
+            if 'uddg' in params:
+                return params['uddg'][0]
+        except Exception:
+            pass
+    if raw_url.startswith('//'):
+        return 'https:' + raw_url
+    return raw_url
+
+def is_valid_company_email(email):
+    """Filters out asset extensions and aggregator support emails."""
+    if not email or '@' not in email:
+        return False
+    em_lower = email.lower().strip()
+    if em_lower.endswith(('.png', '.jpg', '.jpeg', '.svg', '.gif', '.webp', '.js', '.css', '.ico')):
+        return False
+    domain = em_lower.split('@')[-1]
+    if any(d in domain for d in DISALLOWED_EMAIL_DOMAINS):
+        return False
+    return True
 
 def clean_phone_number(p):
     p = re.sub(r'[^\d+]', ' ', p)
@@ -135,7 +186,7 @@ def deep_crawl_site_for_contacts(site_url):
                 href = a['href'].strip()
                 if href.startswith('mailto:'):
                     em = href.replace('mailto:', '').split('?')[0].strip()
-                    if '@' in em:
+                    if is_valid_company_email(em):
                         found_emails.add(em)
                 elif href.startswith('tel:'):
                     ph = clean_phone_number(href.replace('tel:', ''))
@@ -145,7 +196,7 @@ def deep_crawl_site_for_contacts(site_url):
             # Extract text regex
             page_text = soup.get_text(separator=' ', strip=True)
             for m in EMAIL_REGEX.findall(page_text):
-                if not m.lower().endswith(('.png', '.jpg', '.jpeg', '.svg', '.gif', '.webp', '.js', '.css', 'sentry.io')):
+                if is_valid_company_email(m):
                     found_emails.add(m)
             for p in UK_PHONE_REGEX.findall(page_text):
                 ph = clean_phone_number(p)
@@ -170,7 +221,7 @@ def deep_crawl_site_for_contacts(site_url):
                             href = a['href'].strip()
                             if href.startswith('mailto:'):
                                 em = href.replace('mailto:', '').split('?')[0].strip()
-                                if '@' in em:
+                                if is_valid_company_email(em):
                                     found_emails.add(em)
                             elif href.startswith('tel:'):
                                 ph = clean_phone_number(href.replace('tel:', ''))
@@ -179,7 +230,7 @@ def deep_crawl_site_for_contacts(site_url):
                                     
                         c_text = c_soup.get_text(separator=' ', strip=True)
                         for m in EMAIL_REGEX.findall(c_text):
-                            if not m.lower().endswith(('.png', '.jpg', '.jpeg', '.svg', '.gif')):
+                            if is_valid_company_email(m):
                                 found_emails.add(m)
                         for p in UK_PHONE_REGEX.findall(c_text):
                             ph = clean_phone_number(p)
@@ -220,7 +271,8 @@ def harvest_company_contacts(company_name, postcode, address=""):
             snippets = soup.find_all('td', class_='result-snippet')
             
             for l, sn in zip(links[:8], snippets[:8]):
-                href = l.get('href', '')
+                raw_href = l.get('href', '')
+                href = unwrap_ddg_url(raw_href)
                 sn_text = sn.get_text(separator=' ', strip=True)
                 
                 # Check for Social / LinkedIn
@@ -236,7 +288,7 @@ def harvest_company_contacts(company_name, postcode, address=""):
                         
                 # Extract emails from snippet
                 for e in EMAIL_REGEX.findall(sn_text):
-                    if not e.lower().endswith(('.png', '.jpg', '.jpeg', '.svg')):
+                    if is_valid_company_email(e):
                         result['emails'].add(e)
                         
                 # Identify official website (skipping directories & social platforms)
@@ -288,6 +340,56 @@ def load_processed_numbers(output_csv):
             logger.warning(f"Could not read existing output CSV: {e}")
     return processed
 
+def load_candidates_from_source(input_csv, processed_numbers):
+    """Robust parser that handles unquoted commas in names and prioritizes active companies."""
+    co_num_pattern = re.compile(r'^(?:[A-Z]{2})?\d{6,8}$', re.IGNORECASE)
+    active_candidates = []
+    remaining_candidates = []
+    
+    if not os.path.exists(input_csv):
+        return []
+        
+    with open(input_csv, 'r', encoding='utf-8', errors='ignore') as f:
+        reader = csv.reader(f)
+        header = next(reader, None)
+        for row in reader:
+            if not row:
+                continue
+            num_idx = -1
+            for idx, val in enumerate(row):
+                if co_num_pattern.match(val.strip()):
+                    num_idx = idx
+                    break
+            if num_idx == -1:
+                continue
+            
+            co_name = ", ".join(p.strip() for p in row[:num_idx] if p.strip())
+            co_number = row[num_idx].strip()
+            co_status = row[num_idx + 1].strip() if len(row) > num_idx + 1 else "Unknown"
+            incorp = row[num_idx + 5].strip() if len(row) > num_idx + 5 else ""
+            sic = row[num_idx + 8].strip() if len(row) > num_idx + 8 else ""
+            reg_addr = row[num_idx + 9].strip() if len(row) > num_idx + 9 else ""
+            
+            if co_number in processed_numbers:
+                continue
+                
+            entry = {
+                'company_name': co_name,
+                'company_number': co_number,
+                'company_status': co_status,
+                'incorporation_date': incorp,
+                'nature_of_business': sic,
+                'registered_office_address': reg_addr
+            }
+            if co_status.lower() == 'active':
+                active_candidates.append(entry)
+            else:
+                remaining_candidates.append(entry)
+                
+    if active_candidates:
+        return active_candidates
+    return remaining_candidates
+
 def write_github_step_summary(batch_results, total_processed, total_target):
     """Outputs a rich Markdown summary if running inside GitHub Actions."""
     summary_path = os.getenv('GITHUB_STEP_SUMMARY')
@@ -334,28 +436,9 @@ def main():
     processed_numbers = load_processed_numbers(args.output)
     logger.info(f"Already processed in previous runs: {len(processed_numbers)} companies")
 
-    # 2. Read and filter active companies
-    active_candidates = []
-    with open(args.input, 'r', encoding='utf-8', errors='ignore') as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            status = row.get('company_status', '').strip().lower()
-            num = row.get('company_number', '').strip()
-            # Prioritize active companies not yet processed
-            if status == 'active' and num not in processed_numbers:
-                active_candidates.append(row)
-
-    # If all active companies are done, process dissolved/dormant if user desires
-    if not active_candidates:
-        logger.info("All active companies in CSV have been processed! Checking remaining entries...")
-        with open(args.input, 'r', encoding='utf-8', errors='ignore') as f:
-            reader = csv.DictReader(f)
-            for row in reader:
-                num = row.get('company_number', '').strip()
-                if num and num not in processed_numbers:
-                    active_candidates.append(row)
-
-    total_candidates = len(active_candidates)
+    # 2. Read candidates robustly
+    candidates_to_process = load_candidates_from_source(args.input, processed_numbers)
+    total_candidates = len(candidates_to_process)
     logger.info(f"Total remaining companies to scrape: {total_candidates}")
 
     if total_candidates == 0:
@@ -364,7 +447,7 @@ def main():
 
     # Select batch
     batch_size = args.batch_size if args.batch_size > 0 else total_candidates
-    batch = active_candidates[:batch_size]
+    batch = candidates_to_process[:batch_size]
     logger.info(f"Processing next batch of {len(batch)} companies...\n")
 
     # Ensure output CSV exists with headers if new
@@ -405,11 +488,11 @@ def main():
         social = contacts['social']
 
         if phone:
-            logger.info(f"   📞 DIRECT PHONE:    {phone}")
+            logger.info(f"   [PHONE]   {phone}")
         if email:
-            logger.info(f"   ✉️ DIRECT EMAIL:    {email}")
+            logger.info(f"   [EMAIL]   {email}")
         if website:
-            logger.info(f"   🌐 WEBSITE:         {website}")
+            logger.info(f"   [WEBSITE] {website}")
 
         row_data = {
             "Company_Name": name,

@@ -17,6 +17,10 @@ on:
         required: false
         default: '50'
 
+concurrency:
+  group: scraper-enrich-group
+  cancel-in-progress: false
+
 permissions:
   contents: write
 
@@ -58,7 +62,29 @@ jobs:
             echo "No new changes to commit in this batch."
           else
             git commit -m "Auto-enrich: appended fresh company contacts $(date +'%Y-%m-%d %H:%M UTC') [skip ci]"
-            git push origin main
+            
+            # Fetch latest remote changes and rebase with retry loop
+            for i in 1 2 3 4 5; do
+              echo "Attempting git pull --rebase and push (attempt $i)..."
+              git fetch origin main
+              if git pull --rebase origin main; then
+                if git push origin main; then
+                  echo "Successfully pushed to origin/main!"
+                  exit 0
+                fi
+              else
+                echo "Rebase conflict encountered, aborting rebase and applying merge strategy..."
+                git rebase --abort || true
+                git pull --no-rebase -X theirs origin main --no-edit || true
+                if git push origin main; then
+                  echo "Successfully pushed via merge strategy!"
+                  exit 0
+                fi
+              fi
+              sleep 3
+            done
+            echo "Failed to push after 5 attempts."
+            exit 1
           fi
 
       - name: 📑 Upload Execution Logs as Artifact
