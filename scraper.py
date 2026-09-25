@@ -66,13 +66,14 @@ SKIP_DOMAINS = [
     'trustnet.com', 'service.gov.uk', 'sentry.io', 'wixpress.com',
     'squarespace.com', 'wordpress.com', 'github.com', 'cloudflare.com',
     'firstreport.co.uk', 'levelbusiness.com', 'bizuma.co.uk', 'globaldatabase.com',
-    'lei-ireland.ie'
+    'lei-ireland.ie', 'findthatcharity.uk', '1stdirectory.co.uk', 'chamberofcommerce.uk'
 ]
 
 DISALLOWED_EMAIL_DOMAINS = [
     'companiesintheuk.co.uk', 'companieslist.co.uk', 'endole.co.uk', 'companycheck.co.uk',
     'sentry.io', 'wixpress.com', 'domain.com', 'example.com', 'godaddy.com', 'cloudflare.com',
-    'firstreport.co.uk', 'levelbusiness.com', 'bizuma.co.uk', 'lei-ireland.ie'
+    'firstreport.co.uk', 'levelbusiness.com', 'bizuma.co.uk', 'lei-ireland.ie', 'findthatcharity.uk',
+    '1stdirectory.co.uk', 'chamberofcommerce.uk'
 ]
 
 CSV_FIELDNAMES = [
@@ -243,61 +244,100 @@ def deep_crawl_site_for_contacts(site_url):
         
     return found_emails, found_phones
 
-def harvest_company_contacts(company_name, postcode, address=""):
-    """Step 2a: Automated search on DDG Lite to find official website and snippet contacts."""
+def format_director_name(raw_name):
+    if not raw_name or raw_name == 'Director Not Listed':
+        return ""
+    # "FRAIN, Travis Dylan" -> "Travis Dylan Frain"
+    parts = [p.strip() for p in raw_name.split(',') if p.strip()]
+    if len(parts) >= 2:
+        return f"{parts[1]} {parts[0]}"
+    return raw_name.strip()
+
+def search_ddg_lite(query):
+    """Executes a search on DuckDuckGo Lite and returns list of (href, snippet_text)."""
+    hits = []
+    try:
+        post_data = urllib.parse.urlencode({'q': query}).encode('utf-8')
+        req = urllib.request.Request('https://lite.duckduckgo.com/lite/', data=post_data, headers=HEADERS)
+        with urllib.request.urlopen(req, timeout=8, context=ctx) as r:
+            soup = BeautifulSoup(r.read().decode('utf-8', errors='ignore'), 'html.parser')
+            links = soup.find_all('a', class_='result-link')
+            snippets = soup.find_all('td', class_='result-snippet')
+            for l, sn in zip(links[:8], snippets[:8]):
+                raw_href = l.get('href', '')
+                href = unwrap_ddg_url(raw_href)
+                sn_text = sn.get_text(separator=' ', strip=True)
+                hits.append((href, sn_text))
+    except Exception:
+        pass
+    return hits
+
+def harvest_company_contacts(company_name, postcode, address="", director_name=""):
+    """Automated multi-query search and deep crawl to extract phones, emails, and website."""
     clean_name = re.sub(r'\b(C\.I\.C\.|CIC|COMMUNITY INTEREST COMPANY|LIMITED|LTD)\b', '', company_name, flags=re.IGNORECASE).strip()
     clean_name = re.sub(r'[^a-zA-Z0-9\s]', ' ', clean_name).strip()
+    clean_dir = format_director_name(director_name)
     
     addr_parts = [p.strip() for p in address.split(',') if p.strip()]
     city = addr_parts[-2] if len(addr_parts) >= 2 else ""
     if city and any(c.isdigit() for c in city):
         city = addr_parts[-3] if len(addr_parts) >= 3 else ""
-        
-    query = f"{clean_name} {city}".strip() if city else f"{clean_name} {postcode}".strip()
-    
+
     result = {
         'phones': set(),
         'emails': set(),
         'website': '',
         'social': ''
     }
-    
-    try:
-        post_data = urllib.parse.urlencode({'q': query}).encode('utf-8')
-        req = urllib.request.Request('https://lite.duckduckgo.com/lite/', data=post_data, headers=HEADERS)
-        with urllib.request.urlopen(req, timeout=10, context=ctx) as r:
-            soup = BeautifulSoup(r.read().decode('utf-8', errors='ignore'), 'html.parser')
-            links = soup.find_all('a', class_='result-link')
-            snippets = soup.find_all('td', class_='result-snippet')
-            
-            for l, sn in zip(links[:8], snippets[:8]):
-                raw_href = l.get('href', '')
-                href = unwrap_ddg_url(raw_href)
-                sn_text = sn.get_text(separator=' ', strip=True)
-                
-                # Check for Social / LinkedIn
-                if 'linkedin.com' in href or 'facebook.com' in href:
-                    if not result['social']:
-                        result['social'] = href
-                        
-                # Extract phones from snippet
+
+    # Query 1: Company + Location
+    q1 = f"{clean_name} {city}".strip() if city else f"{clean_name} {postcode}".strip()
+    hits1 = search_ddg_lite(q1)
+
+    for href, sn_text in hits1:
+        if ('linkedin.com' in href or 'facebook.com' in href) and not result['social']:
+            result['social'] = href
+        for p in UK_PHONE_REGEX.findall(sn_text):
+            ph = clean_phone_number(p)
+            if len(ph) >= 10:
+                result['phones'].add(ph)
+        for e in EMAIL_REGEX.findall(sn_text):
+            if is_valid_company_email(e):
+                result['emails'].add(e)
+        if href.startswith('http') and not any(d in href.lower() for d in SKIP_DOMAINS) and not result['website']:
+            result['website'] = href
+
+    # Query 2: Director-anchored search (when website or email missing, and director is listed)
+    if (not result['website'] or not result['emails']) and clean_dir:
+        q2 = f'"{clean_dir}" "{clean_name}"'
+        hits2 = search_ddg_lite(q2)
+        for href, sn_text in hits2:
+            if ('linkedin.com' in href or 'facebook.com' in href) and not result['social']:
+                result['social'] = href
+            for p in UK_PHONE_REGEX.findall(sn_text):
+                ph = clean_phone_number(p)
+                if len(ph) >= 10:
+                    result['phones'].add(ph)
+            for e in EMAIL_REGEX.findall(sn_text):
+                if is_valid_company_email(e):
+                    result['emails'].add(e)
+            if href.startswith('http') and not any(d in href.lower() for d in SKIP_DOMAINS) and not result['website']:
+                result['website'] = href
+
+    # Query 3: Facebook page contact extraction if social discovered and phone/email still missing
+    if (not result['phones'] or not result['emails']) and result['social'] and 'facebook.com' in result['social']:
+        fb_slug = result['social'].rstrip('/').split('/')[-1]
+        if fb_slug and fb_slug not in ['pages', 'profile.php']:
+            hits_fb = search_ddg_lite(f'site:facebook.com "{fb_slug}" (phone OR email OR contact)')
+            for _, sn_text in hits_fb:
                 for p in UK_PHONE_REGEX.findall(sn_text):
                     ph = clean_phone_number(p)
                     if len(ph) >= 10:
                         result['phones'].add(ph)
-                        
-                # Extract emails from snippet
                 for e in EMAIL_REGEX.findall(sn_text):
                     if is_valid_company_email(e):
                         result['emails'].add(e)
-                        
-                # Identify official website (skipping directories & social platforms)
-                if href.startswith('http') and not any(d in href.lower() for d in SKIP_DOMAINS):
-                    if not result['website']:
-                        result['website'] = href
-    except Exception as e:
-        logger.warning(f"Search query failed for '{clean_name}': {e}")
-        
+
     # Deep crawl discovered website
     if result['website']:
         web_emails, web_phones = deep_crawl_site_for_contacts(result['website'])
@@ -480,7 +520,7 @@ def main():
         logger.info(f"      Address:          {addr}")
 
         # Step 2: Automated Contact Enrichment
-        contacts = harvest_company_contacts(name, postcode, addr)
+        contacts = harvest_company_contacts(name, postcode, addr, director)
 
         phone = contacts['primary_phone']
         email = contacts['primary_email']
