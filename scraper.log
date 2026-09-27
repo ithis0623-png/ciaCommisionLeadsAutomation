@@ -2303,3 +2303,171 @@
 2026-09-27 03:37:46,805 [INFO] Updated CSV: enriched_uk_companies.csv
 2026-09-27 03:37:46,805 [INFO] Updated Log: scraper.log
 2026-09-27 03:37:46,805 [INFO] ================================================================================
+2026-09-27 09:48:50,099 [INFO] ================================================================================
+2026-09-27 09:48:50,099 [INFO] STARTING PRODUCTION UK COMPANIES HOUSE CONTACT SCRAPER
+2026-09-27 09:48:50,099 [INFO] ================================================================================
+2026-09-27 09:48:50,100 [INFO] Input Dataset:  Companies-House-search-results.csv
+2026-09-27 09:48:50,100 [INFO] Output Dataset: enriched_uk_companies.csv
+2026-09-27 09:48:50,100 [INFO] Batch Size:     50
+2026-09-27 09:48:50,103 [INFO] Already processed in previous runs: 682 companies
+2026-09-27 09:48:50,127 [INFO] Total remaining companies to scrape: 4318
+2026-09-27 09:48:50,127 [INFO] Processing next batch of 50 companies...
+
+2026-09-27 09:48:50,127 [INFO] [  1/50] Scraping: ART FOR BENEFIT COMMUNITY INTEREST COMPANY (Co #12027417)
+2026-09-27 09:48:51,743 [INFO]       Appointed Officer: BORLAND, Michael Peter (Director)
+2026-09-27 09:48:51,743 [INFO]       Address:          34 Evesham Street, Alcester, England, B49 5DW
+2026-09-27 09:48:53,944 [INFO]    [EMAIL]   info@artfund.org
+2026-09-27 09:48:53,944 [INFO]    [WEBSITE] https://www.artfund.org/
+2026-09-27 09:48:54,944 [INFO] [  2/50] Scraping: SITFIT CIC (Co #12030512)
+2026-09-27 09:48:56,651 [INFO]       Appointed Officer: NAISBITT, Katherine (Director)
+2026-09-27 09:48:56,651 [INFO]       Address:          9 Fletchers Way, Allerton Bywater, Castleford, England, WF10 2FL
+2026-09-27 09:48:57,777 [INFO] [  3/50] Scraping: JADEN MOODIE MOVEMENT CIC (Co #12030510)
+2026-09-27 09:48:59,499 [INFO]       Appointed Officer: BAILEY, Jada (Director)
+2026-09-27 09:48:59,499 [INFO]       Address:          60 Uplands Business Park, Unit B Blackhorse Lane, London, United Kingdom, E17 5QJ
+2026-09-27 09:49:00,656 [INFO] [  4/50] Scraping: WRITING WINGS CIC (Co #12031006)
+2026-09-27 09:49:02,387 [INFO]       Appointed Officer: BROWN, Victoria Jane (Director)
+2026-09-27 09:49:02,387 [INFO]       Address:          12 Brantingham Drive, Ingleby Barwick, Stockton-On-Tees, United Kingdom, TS17 5LS
+2026-09-27 09:49:03,543 [INFO] [  5/50] Scraping: EXC CIC (Co #12033694)
+2026-09-27 09:49:05,084 [INFO]       Appointed Officer: BANKS, Craig Edward (Director)
+2026-09-27 09:49:05,084 [INFO]       Address:          516 Edge Lane, Droylsden, Manchester, England, M43 6JW
+2026-09-27 09:49:06,168 [INFO] [  6/50] Scraping: MUSIC ARTS CULTURE CIC (Co #12034955)
+2026-09-27 09:49:07,750 [INFO]       Appointed Officer: FRANCIS, Desmond (Director)
+2026-09-27 09:49:07,750 [INFO]       Address:          339 Dudley Road, Birmingham, West Midland, United Kingdom, B18 4HB
+2026-09-27 09:49:08,925 [INFO] [  7/50] Scraping: TRIUMPH PROPERTY MANAGEMENT CIC (Co #12035931)
+2026-09-27 09:49:10,609 [INFO]       Appointed Officer: MUHWATI, Richard Shingirai (Director)
+2026-09-27 09:49:10,609 [INFO]       Address:          33 Avalon Way, Worthing, England, BN13 2TP
+2026-09-27 09:49:11,693 [INFO] [  8/50] Scraping: WERISE YOUTH CIC (Co #12036421)
+2026-09-27 09:49:13,367 [INFO]       Appointed Officer: COLE, Emeka Johnathan (Director)
+2026-09-27 09:49:13,367 [INFO]       Address:          Flat 39 Brunel Court Westfields Avenue, Barnes, London, SW13 0BA
+2026-09-27 09:49:14,451 [INFO] [  9/50] Scraping: AFRICAN SOCIOCULTURAL HARMONY AND ENLIGHTENMENT CIC (Co #12042568)
+2026-09-27 09:49:16,091 [INFO]       Appointed Officer: FALOYE, Justice Jadesola (Director)
+2026-09-27 09:49:16,091 [INFO]       Address:          226a Green Street, Middlesex, Enfield, England, EN3 7NB
+2026-09-27 09:49:17,174 [INFO] [ 10/50] Scraping: COMMUNITY IN MIND CIC (Co #12045099)
+2026-09-27 09:49:18,737 [INFO]       Appointed Officer: HOPE, Karen (Director)
+2026-09-27 09:49:18,737 [INFO]       Address:          80-82 Norton Road, Stockton-On-Tees, England, TS18 2DE
+2026-09-27 09:49:19,841 [INFO] [ 11/50] Scraping: BLACK ROCK COMMUNITY GARDEN C.I.C. (Co #12046535)
+2026-09-27 09:49:21,391 [INFO]       Appointed Officer: LEDGARD, Mary (Director)
+2026-09-27 09:49:21,392 [INFO]       Address:          23a Arundel Street, Brighton, East Sussex, BN2 5TG
+2026-09-27 09:49:22,487 [INFO] [ 12/50] Scraping: SPEAK FOR YOURSELF C.I.C. (Co #12047632)
+2026-09-27 09:49:24,072 [INFO]       Appointed Officer: BRENNAN, Caroline Charlotte (Director)
+2026-09-27 09:49:24,072 [INFO]       Address:          271 Havant Road, Farlington, Portsmouth, England, PO6 1DB
+2026-09-27 09:49:25,165 [INFO] [ 13/50] Scraping: MUM2MUM SUPPORT GROUP CIC (Co #12047620)
+2026-09-27 09:49:26,774 [INFO]       Appointed Officer: FORREST, Nikki (Director)
+2026-09-27 09:49:26,774 [INFO]       Address:          139 Beech Hill Lane, Wigan, England, WN6 8PJ
+2026-09-27 09:49:27,863 [INFO] [ 14/50] Scraping: CIC 4 C.I.C. (Co #12048603)
+2026-09-27 09:49:29,693 [INFO]       Appointed Officer: ELIAS-JONES, Mari-Wyn (Director)
+2026-09-27 09:49:29,693 [INFO]       Address:          27 Mortimer Street, London, England, W1T 3BL
+2026-09-27 09:49:30,777 [INFO] [ 15/50] Scraping: EQUITYEDUCATION C.I.C. (Co #12049043)
+2026-09-27 09:49:32,300 [INFO]       Appointed Officer: PRENDERGAST, Stuart John (Director)
+2026-09-27 09:49:32,300 [INFO]       Address:          16 Covey Close, Lichfield, England, WS13 6BS
+2026-09-27 09:49:33,398 [INFO] [ 16/50] Scraping: OUTGRAIN ARTS C.I.C. (Co #12049282)
+2026-09-27 09:49:34,916 [INFO]       Appointed Officer: ALESMAEL, Khaled Almuhammad (Director)
+2026-09-27 09:49:34,917 [INFO]       Address:          14 Leighton House John Islip Street, London, England, SW1P 4EA
+2026-09-27 09:49:36,066 [INFO] [ 17/50] Scraping: BACKDROP EVENTS CIC (Co #12049916)
+2026-09-27 09:49:37,744 [INFO]       Appointed Officer: BARNARD, Susan Margaret Elaine (Director)
+2026-09-27 09:49:37,744 [INFO]       Address:          Llys Llewelyn, Mount Pleasant, Conwy, Wales, LL32 8NY
+2026-09-27 09:49:38,860 [INFO] [ 18/50] Scraping: SAWB CIC (Co #12051327)
+2026-09-27 09:49:40,544 [INFO]       Appointed Officer: CLANCY, Thomas James (Director)
+2026-09-27 09:49:40,545 [INFO]       Address:          6 Home Farm Way, Penllergaer, Swansea, Wales, SA4 9HF
+2026-09-27 09:49:41,641 [INFO] [ 19/50] Scraping: INSPIRE SUPPORT CIC (Co #12050590)
+2026-09-27 09:49:43,187 [INFO]       Appointed Officer: MARTIN, Christie Elana (Director)
+2026-09-27 09:49:43,187 [INFO]       Address:          38 Meadowbout Way, Bowbrook, Shrewsbury, United Kingdom, SY5 8QD
+2026-09-27 09:49:44,290 [INFO] [ 20/50] Scraping: PLP WELLBEING ACADEMY CIC (Co #12051136)
+2026-09-27 09:49:45,956 [INFO]       Appointed Officer: BARNETT, David Kwame (Director)
+2026-09-27 09:49:45,956 [INFO]       Address:          20 Great King Street North, Birmingham, United Kingdom, B19 2LF
+2026-09-27 09:49:47,118 [INFO] [ 21/50] Scraping: GLMMM CIC (Co #12052765)
+2026-09-27 09:49:48,854 [INFO]       Appointed Officer: DINSDALE, Barbara Dale (Director)
+2026-09-27 09:49:48,854 [INFO]       Address:          6 Greencroft Way, Salford, United Kingdom, M7 2GJ
+2026-09-27 09:49:49,942 [INFO] [ 22/50] Scraping: IBRIG C.I.C. (Co #12053412)
+2026-09-27 09:49:51,523 [INFO]       Appointed Officer: KRIKUN, Dmitrii (Director)
+2026-09-27 09:49:51,523 [INFO]       Address:          Suite 7 Peel House, The Downs, Altrincham, United Kingdom, WA14 2PX
+2026-09-27 09:49:52,662 [INFO] [ 23/50] Scraping: WAKANDA SOCIAL ENTERPRISE CIC (Co #12055716)
+2026-09-27 09:49:54,389 [INFO]       Appointed Officer: ELEMELE, Christian Chibueze (Director)
+2026-09-27 09:49:54,389 [INFO]       Address:          20 Dawes Road, Dawes Road Hub, London, United Kingdom, SW6 7EN
+2026-09-27 09:49:55,475 [INFO] [ 24/50] Scraping: PROSPERITY YOUTH GROUP C.I.C. (Co #12056813)
+2026-09-27 09:49:57,077 [INFO]       Appointed Officer: FOSTER, Petra Anita (Director)
+2026-09-27 09:49:57,077 [INFO]       Address:          Suite 5, The Cloisters 12 George Road, Edgbaston, Birmingham, West Midlands, England, B15 1NP
+2026-09-27 09:49:58,159 [INFO] [ 25/50] Scraping: PLASTIC-FREE ME CIC (Co #12057667)
+2026-09-27 09:49:59,905 [INFO]       Appointed Officer: CLEGG, Peter Brian (Director)
+2026-09-27 09:49:59,905 [INFO]       Address:          8 Oakfield Street, Cheltenham, England, GL50 2UJ
+2026-09-27 09:50:00,992 [INFO] [ 26/50] Scraping: COLWYN BUSINESS SUPPORT ZONE COMMUNITY INTEREST COMPANY (Co #12060030)
+2026-09-27 09:50:02,601 [INFO]       Appointed Officer: CLEMSON, Mark John (Director)
+2026-09-27 09:50:02,601 [INFO]       Address:          257 Conway Road, Mochdre, Colwyn Bay, Conwy, Wales, LL28 5AA
+2026-09-27 09:50:03,688 [INFO] [ 27/50] Scraping: CHECK FIT CIC (Co #11838545)
+2026-09-27 09:50:05,359 [INFO]       Appointed Officer: EDGERTON, John (Director)
+2026-09-27 09:50:05,359 [INFO]       Address:          120a Cotton Exchange Building, Bixteth Street, Liverpool, Merseyside, L3 9QL
+2026-09-27 09:50:06,936 [INFO] [ 28/50] Scraping: RED TENT DIRECTORY COMMUNITY INTEREST COMPANY (Co #11838386)
+2026-09-27 09:50:08,505 [INFO]       Appointed Officer: CLEMENTS, Mary Ann Walsingham (Director)
+2026-09-27 09:50:08,505 [INFO]       Address:          46 Gibbon Road, London, England, SE15 3XE
+2026-09-27 09:50:10,578 [INFO] [ 29/50] Scraping: AFRICA HEARTS CIC (Co #11842609)
+2026-09-27 09:50:12,211 [INFO]       Appointed Officer: WESTMAAS, Derek Keiron Storm (Secretary)
+2026-09-27 09:50:12,211 [INFO]       Address:          125 Princes Avenue, Watford, Hertfordshire, WD18 7SQ
+2026-09-27 09:50:14,431 [INFO] [ 30/50] Scraping: PALMIE C.I.C. (Co #11845350)
+2026-09-27 09:50:15,979 [INFO]       Appointed Officer: RAWLINGS, Christopher Daniel (Director)
+2026-09-27 09:50:15,979 [INFO]       Address:          21 Maytrees, St. Ives, United Kingdom, PE27 5WZ
+2026-09-27 09:50:18,050 [INFO] [ 31/50] Scraping: FEARLESS FINANCE C.I.C. (Co #11848053)
+2026-09-27 09:50:19,746 [INFO]       Appointed Officer: BRITTON, Daniel Jonathan (Director)
+2026-09-27 09:50:19,747 [INFO]       Address:          12 Tyning Close, Yate, Bristol, South Gloucestershire, BS37 5PN
+2026-09-27 09:50:21,839 [INFO] [ 32/50] Scraping: CICIO I BLANT (CYMRU) CIC (Co #11848688)
+2026-09-27 09:50:23,372 [INFO]       Appointed Officer: TAYLOR, Steven George (Director)
+2026-09-27 09:50:23,372 [INFO]       Address:          38 Granby Court, Connahs Quay, Deeside, Flintshire, CH5 4JZ
+2026-09-27 09:50:25,455 [INFO] [ 33/50] Scraping: GROW YOUR MINDSET C.I.C. (Co #11860605)
+2026-09-27 09:50:26,979 [INFO]       Appointed Officer: CRONSHAW, Elizabeth Sara (Director)
+2026-09-27 09:50:26,979 [INFO]       Address:          12 Woodbank Drive, Bury, England, BL8 1DR
+2026-09-27 09:50:29,053 [INFO] [ 34/50] Scraping: EAST KENT SLINGS CIC (Co #11872127)
+2026-09-27 09:50:30,843 [INFO]       Appointed Officer: HAYHOE, Soshanna Taryn Shari (Director)
+2026-09-27 09:50:30,843 [INFO]       Address:          Station House, Selling, Faversham, Kent, ME13 9PW
+2026-09-27 09:50:32,915 [INFO] [ 35/50] Scraping: KIP EDUCATION C.I.C. (Co #11872110)
+2026-09-27 09:50:34,604 [INFO]       Appointed Officer: AMBLER, Andrew (Director)
+2026-09-27 09:50:34,604 [INFO]       Address:          2nd Floor Gadd House, Arcadia Avenue, London, United Kingdom, N3 2JU
+2026-09-27 09:50:36,679 [INFO] [ 36/50] Scraping: BE EVER VIGILANT CIC (Co #11873129)
+2026-09-27 09:50:38,251 [INFO]       Appointed Officer: PANTON, Patricia Beverley (Director)
+2026-09-27 09:50:38,251 [INFO]       Address:          41 Copthall Road, Handsworth, Birmingham, B21 8JP
+2026-09-27 09:50:40,325 [INFO] [ 37/50] Scraping: ANTE TERMINUM CIC (Co #11885417)
+2026-09-27 09:50:42,061 [INFO]       Appointed Officer: WAXMAN, Frederick Merlin (Secretary)
+2026-09-27 09:50:42,061 [INFO]       Address:          40 Inverness Street, London, United Kingdom, NW1 7HB
+2026-09-27 09:50:44,136 [INFO] [ 38/50] Scraping: BARDSEY FIBRE PROJECT CIC (Co #11886826)
+2026-09-27 09:50:45,850 [INFO]       Appointed Officer: DRAKE, Gabriel Simon (Director)
+2026-09-27 09:50:45,850 [INFO]       Address:          Bardsey Primary School Woodacre Lane, Bardsey, Leeds, West Yorkshire, England, LS17 9DG
+2026-09-27 09:50:47,927 [INFO] [ 39/50] Scraping: STORIES OUTSIDE COMMUNITY INTEREST COMPANY (Co #11887653)
+2026-09-27 09:50:49,542 [INFO]       Appointed Officer: HICKS, Sarah Caroline (Director)
+2026-09-27 09:50:49,542 [INFO]       Address:          Vantage House Euxton Lane, Euxton, Chorley, England, PR7 6TB
+2026-09-27 09:50:51,620 [INFO] [ 40/50] Scraping: WEST TEN FESTIVALS CIC (Co #11890568)
+2026-09-27 09:50:53,280 [INFO]       Appointed Officer: CHANDIRAM, Aaron (Director)
+2026-09-27 09:50:53,280 [INFO]       Address:          8 St Quintin Avenue, London, W10 6NU
+2026-09-27 09:50:55,350 [INFO] [ 41/50] Scraping: THE SECRET WAREHOUSE CIC (Co #11891592)
+2026-09-27 09:50:56,864 [INFO]       Appointed Officer: CARNEY, Deborah Anne (Director)
+2026-09-27 09:50:56,864 [INFO]       Address:          The Secret Warehouse, Syren Street, Liverpool, Merseyside, L20 8JS
+2026-09-27 09:50:58,938 [INFO] [ 42/50] Scraping: ICONIC BLACK BRITONS C.I.C. (Co #11891871)
+2026-09-27 09:51:00,626 [INFO]       Appointed Officer: CURTIS, Michele, Dr (Director)
+2026-09-27 09:51:00,626 [INFO]       Address:          11 Laura Place, Bath, BA2 4BL
+2026-09-27 09:51:02,705 [INFO] [ 43/50] Scraping: WELLBEING THAT WORKS CIC (Co #11892196)
+2026-09-27 09:51:04,389 [INFO]       Appointed Officer: HOWARTH, Joanna Caroline (Director)
+2026-09-27 09:51:04,389 [INFO]       Address:          75 Jubilee Pastures, Middlewich, Cheshire, CW10 0AS
+2026-09-27 09:51:06,463 [INFO] [ 44/50] Scraping: ROOFTOP THEATRE C.I.C. (Co #11892976)
+2026-09-27 09:51:08,191 [INFO]       Appointed Officer: BOLTON, Simon Edward John (Director)
+2026-09-27 09:51:08,191 [INFO]       Address:          63 Steventon New Road, Ludlow, Shropshire, SY8 1JY
+2026-09-27 09:51:10,262 [INFO] [ 45/50] Scraping: TOWN OF HARTLEPOOL CORPORATION CIC (Co #11894494)
+2026-09-27 09:51:11,809 [INFO]       Appointed Officer: MOORE, Shane Robert (Director)
+2026-09-27 09:51:11,809 [INFO]       Address:          36 Sedgewick Close, Hartlepool, United Kingdom, TS24 9EU
+2026-09-27 09:51:13,880 [INFO] [ 46/50] Scraping: ANOTHER WAY OUT CIC (Co #11893856)
+2026-09-27 09:51:15,596 [INFO]       Appointed Officer: BOWLER, Lucia (Director)
+2026-09-27 09:51:15,596 [INFO]       Address:          1 Little Coldrenick Coldrenick, Menheniot, Liskeard, Cornwall, PL14 3RQ
+2026-09-27 09:51:17,673 [INFO] [ 47/50] Scraping: THE JOSHUA RIBERA FOUNDATION CIC (Co #11893801)
+2026-09-27 09:51:19,485 [INFO]       Appointed Officer: SMITH, Sherelle Lucia (Secretary)
+2026-09-27 09:51:19,485 [INFO]       Address:          2 134 Anderton Park Road, Birmingham, United Kingdom, B13 9DQ
+2026-09-27 09:51:21,560 [INFO] [ 48/50] Scraping: SLEEPCENTER ART SPACE (UK) C.I.C. (Co #11895251)
+2026-09-27 09:51:23,144 [INFO]       Appointed Officer: LIN, Rui (Director)
+2026-09-27 09:51:23,144 [INFO]       Address:          Unit 1 70 Varden Street, London, United Kingdom, E1 2JB
+2026-09-27 09:51:25,226 [INFO] [ 49/50] Scraping: CHINA-UK MEDTECH ASSOCIATION LIMITED CIC (Co #11898892)
+2026-09-27 09:51:26,796 [INFO]       Appointed Officer: LI, Li, Dr (Director)
+2026-09-27 09:51:26,797 [INFO]       Address:          Suite L3 South Fens Business Centre, Fenton Way, Chatteris, Cambridgeshire, PE16 6TT
+2026-09-27 09:51:28,867 [INFO] [ 50/50] Scraping: HAVEN GARDEN ROOMS AND HOMES CIC (Co #11899113)
+2026-09-27 09:51:30,355 [INFO]       Appointed Officer: MCNAB, Angus (Director)
+2026-09-27 09:51:30,355 [INFO]       Address:          21 Roundwood, Shipley, West Yorkshire, BD18 4JP
+2026-09-27 09:51:32,443 [INFO] ================================================================================
+2026-09-27 09:51:32,443 [INFO] BATCH FINISHED: Processed 50 companies in 162.3s.
+2026-09-27 09:51:32,443 [INFO] Total Cumulative Enriched: 732 companies.
+2026-09-27 09:51:32,443 [INFO] Updated CSV: enriched_uk_companies.csv
+2026-09-27 09:51:32,443 [INFO] Updated Log: scraper.log
+2026-09-27 09:51:32,443 [INFO] ================================================================================
